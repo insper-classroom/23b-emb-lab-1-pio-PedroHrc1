@@ -24,15 +24,10 @@
 /************************************************************************/
 
 //Led
-#define LED_PIO     PIOC      //Periferico que controla o Led
-#define LED_PIO_ID    ID_PIOC    //ID do periferico PIOC(Controla o Led)
-#define LED_PIO_IDX       8	//ID do Led no PIO
-#define LED_PIO_IDX_MASK  (1<<LED_PIO_IDX) //Mascara para controlar o led
-
-#define LED1_PIO	PIOA
-#define LED1_PIO_ID    ID_PIOA    
-#define LED1_PIO_IDX       0
-#define LED1_PIO_IDX_MASK  (1<<LED1_PIO_IDX) 
+#define LED1_PIO	PIOA	//Periferico que controla o Led
+#define LED1_PIO_ID    ID_PIOA   //ID do periferico PIOC(Controla o Led) 
+#define LED1_PIO_IDX       0 //ID do Led no PIO
+#define LED1_PIO_IDX_MASK  (1<<LED1_PIO_IDX) //Mascara para controlar o led
 
 #define LED2_PIO	PIOC
 #define LED2_PIO_ID    ID_PIOC
@@ -44,11 +39,6 @@
 #define LED3_PIO_IDX       2
 #define LED3_PIO_IDX_MASK  (1<<LED3_PIO_IDX)
 
-//Botao
-#define BUT_PIO  PIOA
-#define BUT_PIO_ID ID_PIOA
-#define BUT_PIO_IDX 11
-#define BUT_PIO_IDX_MASK (1u << BUT_PIO_IDX)
 
 //Botao 1
 #define BUT1_PIO  PIOD
@@ -100,30 +90,25 @@ void init(void)
 	WDT ->WDT_CR = WDT_MR_WDDIS;
 	
 	// Ativa o PIO na qual o LED foi conectado
-	// para que possamos controlar o LED.
-	pmc_enable_periph_clk(LED_PIO_ID);
+	// para que possamos controlar o LED
 	pmc_enable_periph_clk(LED1_PIO_ID); //Led 1
 	pmc_enable_periph_clk(LED2_PIO_ID); //Led 2
 	pmc_enable_periph_clk(LED3_PIO_ID); //Led 3
 
-	//Inicializa PC8 como saída
-	pio_set_output(LED_PIO, LED_PIO_IDX_MASK, 0, 0, 0);
+	//Inicializa PC8 como 
 	pio_set_output(LED1_PIO, LED1_PIO_IDX_MASK, 0, 0, 0); //Led 1
 	pio_set_output(LED2_PIO, LED2_PIO_IDX_MASK, 0, 0, 0); //Led 2
 	pio_set_output(LED3_PIO, LED3_PIO_IDX_MASK, 0, 0, 0); //Led 3
 	
-	//Inicializa o botao
-	pmc_enable_periph_clk(BUT_PIO_ID);
+	//Inicializa o 
 	pmc_enable_periph_clk(BUT1_PIO_ID);
 	pmc_enable_periph_clk(BUT2_PIO_ID);
 	pmc_enable_periph_clk(BUT3_PIO_ID);
-	
-	pio_set_input(BUT_PIO, BUT_PIO_IDX_MASK, PIO_DEFAULT);
+
 	pio_set_input(BUT1_PIO, BUT1_PIO_IDX_MASK, PIO_DEFAULT);
 	pio_set_input(BUT2_PIO, BUT2_PIO_IDX_MASK, PIO_DEFAULT);
 	pio_set_input(BUT3_PIO, BUT3_PIO_IDX_MASK, PIO_DEFAULT);
 	
-	pio_pull_up(BUT_PIO,BUT_PIO_IDX_MASK,1);
 	pio_pull_up(BUT1_PIO,BUT1_PIO_IDX_MASK,1);
 	pio_pull_up(BUT2_PIO,BUT2_PIO_IDX_MASK,1);
 	pio_pull_up(BUT3_PIO,BUT3_PIO_IDX_MASK,1);
@@ -142,17 +127,6 @@ int main(void){
   // super loop
   // aplicacoes embarcadas não devem sair do while(1).
   while (1){
-// 	  if (!pio_get(BUT_PIO,PIO_INPUT, BUT_PIO_IDX_MASK)){
-// 		  for(int i = 0; i < 5;i++){
-// 			  pio_set(LED_PIO,LED_PIO_IDX_MASK);
-// 			  delay_ms(1000);
-// 			  pio_clear(LED_PIO,LED_PIO_IDX_MASK);
-// 			  delay_ms(1000);
-// 		  }
-// 	  }
-// 	  else{
-// 		  pio_set(LED_PIO,LED_PIO_IDX_MASK);
-// 	  }
 	  
 		if (!pio_get(BUT1_PIO,PIO_INPUT, BUT1_PIO_IDX_MASK)){
 			pio_clear(LED1_PIO,LED1_PIO_IDX_MASK);
